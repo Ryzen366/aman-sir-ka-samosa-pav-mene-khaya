@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Game & Sports Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            background-color: #1a1a2e;
+            color: #eaeaea;
+        }
+        #quiz-container {
+            width: 600px;
+            margin: 50px auto;
+            background-color: #16213e;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            margin-bottom: 25px;
+            color: #ff4c29;
+        }
+        #question {
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+        #choices {
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        #choices label {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #0f3460;
+            border: 1px solid #eaeaea;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #choices label:hover {
+            background-color: #ff4c29;
+            color: #ffffff;
+        }
+        #choices input {
+            margin-right: 10px;
+        }
+        #submit-button {
+            padding: 15px 30px;
+            background-color: #ff4c29;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        #submit-button:hover {
+            background-color: #d43c1a;
+            transform: scale(1.05);
+        }
+        #results {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ff4c29;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="quiz-container">
+        <h1>Video Game & Sports Quiz</h1>
+        <div id="question"></div>
+        <div id="choices"></div>
+        <button id="submit-button">Submit Answer</button>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "In which year did the first Super Mario Bros. game release?",
+                choices: ["1983", "1985", "1987", "1989"],
+                correctAnswer: "1985"
+            },
+            {
+                question: "Which sport is often called 'The Beautiful Game'?",
+                choices: ["Basketball", "Tennis", "Soccer", "Cricket"],
+                correctAnswer: "Soccer"
+            },
+            {
+                question: "What is the most popular video game console of all time?",
+                choices: ["PlayStation 2", "Nintendo DS", "Game Boy", "Xbox 360"],
+                correctAnswer: "PlayStation 2"
+            },
+            {
+                question: "Who won the FIFA World Cup in 2018?",
+                choices: ["Brazil", "Germany", "France", "Argentina"],
+                correctAnswer: "France"
+            },
+            {
+                question: "Which video game franchise features a character named Master Chief?",
+                choices: ["Halo", "Call of Duty", "Assassin's Creed", "Gears of War"],
+                correctAnswer: "Halo"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            const questionElement = document.getElementById("question");
+            const choicesElement = document.getElementById("choices");
+
+            questionElement.textContent = currentQuestion.question;
+
+            choicesElement.innerHTML = "";
+            for (let i = 0; i < currentQuestion.choices.length; i++) {
+                const choice = currentQuestion.choices[i];
+                const label = document.createElement("label");
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = "choice";
+                input.value = choice;
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(choice));
+                choicesElement.appendChild(label);
+            }
+        }
+
+        function checkAnswer() {
+            const selectedChoice = document.querySelector('input[name="choice"]:checked');
+            if (selectedChoice && selectedChoice.value === questions[currentQuestionIndex].correctAnswer) {
+                score++;
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            const resultsElement = document.getElementById("results");
+            resultsElement.textContent = `You scored ${score} out of ${questions.length}!`;
+        }
+
+        loadQuestion();
+
+        const submitButton = document.getElementById("submit-button");
+        submitButton.addEventListener("click", () => {
+            checkAnswer();
+            nextQuestion();
+        });
+    </script>
+
+</body>
+</html>
